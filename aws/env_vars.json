@@ -12,7 +12,7 @@
         "value": "${aws_secret_access_key}"
     },
     {
-        "name": "AWS_REGION",
+        "name": "AWS_REGION_NAME",
         "value": "${aws_region_name}"
     },
     {
@@ -25,6 +25,6 @@
     },
     {
         "name": "REQUIRE_USER_AUTHENTICATION",
-        "value": 1
+        "value": "${require_user_authentication}"
     }
 ]

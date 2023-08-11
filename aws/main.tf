@@ -9,7 +9,9 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
-provider "aws" {}
+provider "aws" {
+  region = var.aws_region
+}
 
 resource "aws_ecs_cluster" "aws-ecs-cluster" {
   name = "${var.app_name}-${var.app_environment}-cluster"
@@ -38,9 +40,10 @@ data "template_file" "env_vars" {
   template = file("env_vars.json")
 
   vars = {
-    aws_access_key_id     = var.AWS_ACCESS_KEY_ID
-    aws_secret_access_key = var.AWS_SECRET_ACCESS_KEY
-    aws_region_name       = var.AWS_REGION
+    aws_access_key_id           = var.AWS_ACCESS_KEY_ID
+    aws_secret_access_key       = var.AWS_SECRET_ACCESS_KEY
+    aws_region_name             = var.aws_region
+    require_user_authentication = var.require_user_authentication
     # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
     # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
     database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
@@ -69,7 +72,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "${aws_cloudwatch_log_group.log-group.id}",
-          "awslogs-region": "${var.AWS_REGION}",
+          "awslogs-region": "${var.aws_region}",
           "awslogs-stream-prefix": "${var.app_name}-${var.app_environment}"
         }
       },

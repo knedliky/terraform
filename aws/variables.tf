@@ -8,14 +8,14 @@ variable "AWS_SECRET_ACCESS_KEY" {
   default = "AWS_SECRET_ACCESS_KEY"
 }
 
-variable "AWS_REGION" {
-  type    = string
-  default = "AWS_REGION"
-}
-
 variable "DATABASE_CONNECTION_URL" {
   type    = string
   default = ""
+}
+
+variable "require_user_authentication" {
+  type    = number
+  default = 1
 }
 
 variable "app_count" {
@@ -81,6 +81,11 @@ variable "public_subnets" {
 variable "private_subnets" {
   description = "List of private subnets"
   default     = ["10.32.0.0/24", "10.32.1.0/24"]
+}
+
+variable "aws_region" {
+  type    = string
+  default = "us-east-1"
 }
 
 variable "availability_zones" {
